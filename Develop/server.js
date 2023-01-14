@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = 3001;
@@ -10,7 +11,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-app.get('/notes', (req,res) =>
+app.get('/', (req,res) =>
 res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
 
@@ -23,16 +24,28 @@ app.get('/api/notes', (req, res) => {
     return res.status(200).json(notes);
   });
 
-  // POST request
+// POST request to add a note
 app.post('/api/notes', (req, res) => {
-    // Let the client know that their POST request was received
-    res.json(`${req.method} request received`);
+    // Log that a POST request was received
+    console.info(`${req.method} request received to add a note`);
+    
+    // Prepare a response object to send back to the client
+    let response;
   
-    // Show the user agent information in the terminal
-    console.log(req.body);
+    // Check if there is anything in the response body
+    if (req.body && req.body.text) {
+      response = {
+        status: 'success',
+        data: req.body,
+      };
+      res.status(201).json(response);
+    } else {
+      res.status(400).json('Request body must at least contain note text');
+    }
   
-    // Log our request to the terminal
-    console.log(`${req.method} request received`);
+    // Log the response body to the console
+    console.log(req.body.title);
+    console.log(req.body.text);
   });
 
 app.listen(PORT, () =>

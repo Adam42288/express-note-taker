@@ -5,6 +5,8 @@ const fs = require('fs');
 const app = express();
 const PORT = 3001;
 const notes = require('./db/db.json');
+// Helper method for generating unique note ids
+const uuid = require('./helpers/uuid');
 
 // Middleware for parsing application/json
 app.use(express.json());
@@ -40,7 +42,8 @@ app.post('/api/notes', (req, res) => {
         // Variable for the new note object we will save
         const newNote = {
             title,
-            text
+            text,
+            id: uuid(),
         };
         
         // Obtain the existing notes
@@ -76,9 +79,38 @@ app.post('/api/notes', (req, res) => {
       res.status(500).json('Error creating new note');
     }
   
-    // Log the response body to the console
-    console.log(title);
-    console.log(text);
+  });
+
+// delete route for bonus
+app.delete('/api/notes/:id', (req, res) => {
+// Obtain the existing notes
+console.log(req);
+const selectedNote = req.id;
+fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+    } else {
+        // Convert string into JSON object
+        const parsedNotes = JSON.parse(data);
+console.log(parsedNotes);
+
+        // // add a new note
+        // parsedNotes.push(newNote);
+
+        // // Write updated reviews back to the file
+        // fs.writeFile(
+        //     './db/db.json',
+        //     JSON.stringify(parsedNotes, null, 4),
+        //     (writeErr) =>
+        //         writeErr
+        //             ? console.error(writeErr)
+        //             : console.info('Successfully added note')
+        // );
+    }
+
+});
+    
+    res.send('Got a DELETE request at /user')
   });
 
 app.listen(PORT, () =>

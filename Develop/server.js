@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-app.get('/', (req,res) =>
+app.get('/notes', (req,res) =>
 res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
 
@@ -29,11 +29,12 @@ app.post('/api/notes', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received to add a note`);
     
-    // Prepare a response object to send back to the client
+    // Destructuring assignment for the items in req.body
     let response;
+    const { title, text } = req.body;
   
     // Check if there is anything in the response body
-    if (req.body && req.body.text) {
+    if (title && text) {
       response = {
         status: 'success',
         data: req.body,
@@ -44,8 +45,8 @@ app.post('/api/notes', (req, res) => {
     }
   
     // Log the response body to the console
-    console.log(req.body.title);
-    console.log(req.body.text);
+    console.log(title);
+    console.log(text);
   });
 
 app.listen(PORT, () =>

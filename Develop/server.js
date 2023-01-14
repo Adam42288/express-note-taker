@@ -35,13 +35,14 @@ app.post('/api/notes', (req, res) => {
   
     // Check if there is anything in the response body
     if (title && text) {
-      response = {
-        status: 'success',
-        data: req.body,
-      };
-      res.status(201).json(response);
+        const newNote = {
+            title,
+            text
+        };
+        
+      res.status(201).json(newNote);
     } else {
-      res.status(400).json('Request body must at least contain note text');
+      res.status(400).json('Request body must contain title and text');
     }
   
     // Log the response body to the console

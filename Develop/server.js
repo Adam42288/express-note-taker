@@ -11,6 +11,9 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
+app.get('/', (req,res) =>
+res.sendFile(path.join(__dirname, 'public/index.html'))
+);
 app.get('/notes', (req,res) =>
 res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
@@ -30,19 +33,47 @@ app.post('/api/notes', (req, res) => {
     console.info(`${req.method} request received to add a note`);
     
     // Destructuring assignment for the items in req.body
-    let response;
     const { title, text } = req.body;
   
-    // Check if there is anything in the response body
+    // Check if all the required properties for a new note are present
     if (title && text) {
+        // Variable for the new note object we will save
         const newNote = {
             title,
             text
         };
         
-      res.status(201).json(newNote);
+        // Obtain the existing notes
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                // Convert string into JSON object
+                const parsedNotes = JSON.parse(data);
+
+                // add a new note
+                parsedNotes.push(newNote);
+
+                // Write updated reviews back to the file
+                fs.writeFile(
+                    './db/db.json',
+                    JSON.stringify(parsedNotes, null, 4),
+                    (writeErr) =>
+                        writeErr
+                            ? console.error(writeErr)
+                            : console.info('Successfully added note')
+                );
+            }
+
+        });
+        const response = {
+            status: 'success',
+            body: newNote,
+        };
+        console.log(response);
+      res.status(201).json(response);
     } else {
-      res.status(400).json('Request body must contain title and text');
+      res.status(500).json('Error creating new note');
     }
   
     // Log the response body to the console

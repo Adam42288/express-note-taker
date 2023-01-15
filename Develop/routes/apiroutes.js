@@ -3,6 +3,7 @@ const router = require('express').Router();
 const notes = require('../db/db.json');
 // Helper method for generating unique note ids
 const uuid = require('../helpers/uuid');
+const { readFromFile, readAndAppend } = require('../helpers/fsUtil');
 const fs = require('fs');
 
 // CODE HERE

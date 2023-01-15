@@ -7,12 +7,16 @@ const { readFromFile, readAndAppend } = require('../helpers/fsUtil');
 const fs = require('fs');
 
 // CODE HERE
+// router.get('/notes', (req, res) => {
+//      console.log(notes);
+//     // Log our request to the terminal
+//     console.info(`${req.method} request received to get notes`);
+//     // Sending all reviews to the client
+//     return res.status(200).json(notes);
+//   });
+
 router.get('/notes', (req, res) => {
-     console.log(notes);
-    // Log our request to the terminal
-    console.info(`${req.method} request received to get notes`);
-    // Sending all reviews to the client
-    return res.status(200).json(notes);
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
   });
 
 // POST request to add a note

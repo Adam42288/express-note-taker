@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const api = require('./routes/apiroutes.js');
+const htmlrouter = require('./routes/htmlroutes');
 
 const app = express();
 const PORT = 3001;
@@ -10,18 +11,20 @@ const uuid = require('./helpers/uuid');
 
 // Middleware for parsing application/json
 app.use(express.json());
+app.use('/', htmlrouter);
 app.use('/api', api);
+
 app.use(express.static('public'));
 
-// GET Route for homepage
-app.get('/', (req,res) =>
-res.sendFile(path.join(__dirname, 'public/index.html'))
-);
+// // GET Route for homepage
+// app.get('/', (req,res) =>
+// res.sendFile(path.join(__dirname, 'public/index.html'))
+// );
 
-// GET Route for notes page
-app.get('/notes', (req,res) =>
-res.sendFile(path.join(__dirname, 'public/notes.html'))
-);
+// // GET Route for notes page
+// app.get('/notes', (req,res) =>
+// res.sendFile(path.join(__dirname, 'public/notes.html'))
+// );
 
 // GET request for Notes
 // app.get('/api/notes', (req, res) => {

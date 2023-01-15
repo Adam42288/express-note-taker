@@ -6,7 +6,7 @@ const uuid = require('../helpers/uuid');
 const fs = require('fs');
 
 // CODE HERE
-router.get('/api/notes', (req, res) => {
+router.get('/', (req, res) => {
     // Log our request to the terminal
     console.info(`${req.method} request received to get notes`);
   
@@ -15,7 +15,7 @@ router.get('/api/notes', (req, res) => {
   });
 
 // POST request to add a note
-router.post('/api/notes', (req, res) => {
+router.post('/', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received to add a note`);
     
@@ -32,7 +32,7 @@ router.post('/api/notes', (req, res) => {
         };
         
         // Obtain the existing notes
-        fs.readFile('../db/db.json', 'utf8', (err, data) => {
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
             if (err) {
                 console.error(err);
             } else {
@@ -44,7 +44,7 @@ router.post('/api/notes', (req, res) => {
 
                 // Write updated reviews back to the file
                 fs.writeFile(
-                    '../db/db.json',
+                    './db/db.json',
                     JSON.stringify(parsedNotes, null, 4),
                     (writeErr) =>
                         writeErr
@@ -71,7 +71,7 @@ router.delete('/api/notes/:id', (req, res) => {
 // Obtain the existing notes
 console.log(req);
 const selectedNote = req.id;
-fs.readFile('../db/db.json', 'utf8', (err, data) => {
+fs.readFile('./db/db.json', 'utf8', (err, data) => {
     if (err) {
         console.error(err);
     } else {

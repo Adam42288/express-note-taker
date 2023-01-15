@@ -3,6 +3,14 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+const express = require('express');
+const api = require('./apiroutes');
+const htmlrouter = require('./htmlroutes');
+
+const app = express();
+app.use('/', htmlrouter);
+app.use('/api', api);
+
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');

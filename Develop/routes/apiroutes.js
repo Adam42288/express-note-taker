@@ -6,27 +6,16 @@ const uuid = require('../helpers/uuid');
 const fs = require('fs');
 
 // CODE HERE
-
-// GET Route for homepage
-router.get('/', (req,res) =>
-res.sendFile(path.join(__dirname, '../public/index.html'))
-);
-
-// GET Route for notes page
-router.get('/notes', (req,res) =>
-res.sendFile(path.join(__dirname, '../public/notes.html'))
-);
-
-router.get('/', (req, res) => {
+router.get('/notes', (req, res) => {
+     console.log(notes);
     // Log our request to the terminal
     console.info(`${req.method} request received to get notes`);
-  
     // Sending all reviews to the client
     return res.status(200).json(notes);
   });
 
 // POST request to add a note
-router.post('/', (req, res) => {
+router.post('/notes', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received to add a note`);
     
@@ -78,7 +67,7 @@ router.post('/', (req, res) => {
   });
 
 // delete route for bonus
-router.delete('/api/notes/:id', (req, res) => {
+router.delete('/notes/:id', (req, res) => {
 // Obtain the existing notes
 console.log(req);
 const selectedNote = req.id;

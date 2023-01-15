@@ -1,16 +1,8 @@
-const express = require('express');
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-const api = require('../../../routes/apiroutes');
-const htmlrouter = require('../../../routes/htmlroutes');
-
-const app = express();
-app.use('/', htmlrouter);
-app.use('/api', api);
-
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');

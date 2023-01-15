@@ -1,11 +1,11 @@
+const express = require('express');
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-const express = require('express');
-const api = require('./apiroutes');
-const htmlrouter = require('./htmlroutes');
+const api = require('../../../routes/apiroutes');
+const htmlrouter = require('../../../routes/htmlroutes');
 
 const app = express();
 app.use('/', htmlrouter);

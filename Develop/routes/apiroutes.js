@@ -7,14 +7,6 @@ const { readFromFile, readAndAppend } = require('../helpers/fsUtil');
 const fs = require('fs');
 
 // CODE HERE
-// router.get('/notes', (req, res) => {
-//      console.log(notes);
-//     // Log our request to the terminal
-//     console.info(`${req.method} request received to get notes`);
-//     // Sending all reviews to the client
-//     return res.status(200).json(notes);
-//   });
-
 router.get('/notes', (req, res) => {
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
   });
@@ -74,8 +66,8 @@ router.post('/notes', (req, res) => {
 // delete route for bonus
 router.delete('/notes/:id', (req, res) => {
 // Obtain the existing notes
-console.log(req);
-const selectedNote = req.id;
+console.log(req.params.id);
+const selectedNote = req.params.id;
 fs.readFile('./db/db.json', 'utf8', (err, data) => {
     if (err) {
         console.error(err);
@@ -83,23 +75,23 @@ fs.readFile('./db/db.json', 'utf8', (err, data) => {
         // Convert string into JSON object
         const parsedNotes = JSON.parse(data);
 console.log(parsedNotes);
-
-        // // add a new note
-        // parsedNotes.push(newNote);
-
-        // // Write updated reviews back to the file
-        // fs.writeFile(
-        //     './db/db.json',
-        //     JSON.stringify(parsedNotes, null, 4),
-        //     (writeErr) =>
-        //         writeErr
-        //             ? console.error(writeErr)
-        //             : console.info('Successfully added note')
-        // );
+const indx = parsedNotes.findIndex(v => v.id === selectedNote);
+console.log(indx);
+parsedNotes.splice(indx,1 );
+console.log(parsedNotes);
+      // Write updated reviews back to the file
+      fs.writeFile(
+        './db/db.json',
+        JSON.stringify(parsedNotes, null, 4),
+        (writeErr) =>
+            writeErr
+                ? console.error(writeErr)
+                : console.info('Successfully Deleted note')
+    );
     }
-
-});
     
+});
+
     res.send('Got a DELETE request at /user')
   });
 
